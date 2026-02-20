@@ -855,5 +855,10 @@ app.post("/generateCV", (req, res) => {
 });
 
 
+app.get("/", (req, res) => {
+    res.send("CV Generator Backend is running ✅");
+});
+
+
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => console.log(`CV server running on port ${PORT}`));
