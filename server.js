@@ -23,6 +23,34 @@ const parseSocialLinks = (socialStr) => {
     });
 };
 
+// =============================================
+// SHARED WATERMARK SNIPPET
+// =============================================
+const WATERMARK_CSS = `
+.cvbuilder-watermark {
+    position: fixed;
+    bottom: 14px;
+    right: 18px;
+    font-size: 10px;
+    font-weight: 900;
+    color: #560591;
+    opacity: 0.5;
+    pointer-events: none;
+    user-select: none;
+    letter-spacing: 0;
+    z-index: 9999;
+}
+.cvbuilder-watermark span {
+    color: transparent;
+    -webkit-text-stroke: 0.6px #560591;
+}
+@media print {
+    .cvbuilder-watermark { display: none; }
+}
+`;
+
+const WATERMARK_HTML = `<div class="cvbuilder-watermark">CV<span>Builder</span></div>`;
+
 
 // =============================================
 // YOUR ORIGINAL TEMPLATE 1 HELPERS
@@ -166,6 +194,7 @@ const buildTemp1 = ({ fullName, email, phone, location, jobTitle, summary, exper
         .social-item a:hover { text-decoration: underline; }
         @media print { body { background: none; padding: 0; } .cv { box-shadow: none; } }
         ::-webkit-scrollbar { display: none; }
+        ${WATERMARK_CSS}
     </style>
 </head>
 <body data-template="1">
@@ -205,6 +234,7 @@ const buildTemp1 = ({ fullName, email, phone, location, jobTitle, summary, exper
     ${languages ? `<div class="cv-body"><div class="col-left"><div class="section-label">Tillar</div><div class="section-label-line"></div></div><div class="col-right"><ul class="cv-list">${generateTemp1Tags(languages)}</ul></div></div>` : ""}
     ${socialLinks ? `<div class="cv-body" style="border-bottom:none; padding-bottom:0;"><div class="col-left"><div class="section-label">Havolalar</div><div class="section-label-line"></div></div><div class="col-right">${generateTemp1SocialLinks(socialLinks)}</div></div>` : ""}
 </div>
+${WATERMARK_HTML}
 </body>
 </html>
 `;
@@ -255,6 +285,7 @@ const buildTemp2 = ({ fullName, email, phone, location, jobTitle, summary, exper
         .cv-entry-link:hover { text-decoration: underline; }
         @media print { body { background: none; padding: 0; } .cv-sheet { box-shadow: none; width: 100%; } }
         ::-webkit-scrollbar { display: none; }
+        ${WATERMARK_CSS}
     </style>
 </head>
 <body data-template="2">
@@ -281,6 +312,7 @@ const buildTemp2 = ({ fullName, email, phone, location, jobTitle, summary, exper
         <div class="cv-section"><div class="cv-section-heading">Loyihalar</div>${generateTemp2Projects(projects)}</div>
     </div>
 </div>
+${WATERMARK_HTML}
 </body>
 </html>
 `;
@@ -289,8 +321,6 @@ const buildTemp2 = ({ fullName, email, phone, location, jobTitle, summary, exper
 
 // =============================================
 // NEW TEMPLATE 3 — Exact match Image 1
-// Clean white, Merriweather serif, centered purple headers,
-// single column, skills inline row, exp company bold top-left
 // =============================================
 const buildTemp3 = ({ fullName, email, phone, location, jobTitle, summary, experience, education, skills, projects, socialLinks, languages, tools }) => {
     const socials = parseSocialLinks(socialLinks);
@@ -315,7 +345,6 @@ const buildTemp3 = ({ fullName, email, phone, location, jobTitle, summary, exper
             <div class="exp-desc">${proj.description}</div>
         </div>`).join("") : "";
 
-    // CHANGED: skills split by comma
     const allSkills = [
         ...splitComma(skills),
         ...splitComma(tools),
@@ -333,39 +362,26 @@ const buildTemp3 = ({ fullName, email, phone, location, jobTitle, summary, exper
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 body{background:#fff;display:flex;justify-content:center;padding:40px 20px;font-family:'Inter',sans-serif;color:#1a1a1a}
 .cv{background:#fff;width:780px;min-height:1040px;padding:48px 60px;box-shadow:0 2px 24px rgba(0,0,0,0.08)}
-
-/* HEADER */
 .cv-header{text-align:center;padding-bottom:22px}
 .cv-name{font-family:'Merriweather',serif;font-size:1.85rem;font-weight:700;letter-spacing:1px;color:#111;margin-bottom:6px}
 .cv-jobtitle{font-size:0.82rem;color:#444;font-weight:400;margin-bottom:12px;letter-spacing:0.5px}
 .cv-meta{display:flex;justify-content:center;flex-wrap:wrap;gap:6px 24px;font-size:0.74rem;color:#555}
 .cv-meta a{color:#555;text-decoration:none}
 .cv-meta a:hover{text-decoration:underline}
-
-/* DIVIDER */
 .divider{border:none;border-top:1.5px solid #6b46c1;margin:18px 0}
 .divider-thin{border:none;border-top:1px solid #e0e0e0;margin:16px 0}
-
-/* SECTION */
 .section-heading{font-family:'Merriweather',serif;font-size:1rem;font-weight:700;color:#6b46c1;text-align:center;letter-spacing:0.5px;margin-bottom:16px}
-
-/* SKILLS ROW */
 .skills-wrap{text-align:center;font-size:0.79rem;color:#333;line-height:2.2}
 .skill-chip{display:inline}
-
-/* EXPERIENCE */
 .exp-block{margin-bottom:22px}
 .exp-company{font-size:0.92rem;font-weight:600;color:#111}
 .exp-role{font-size:0.88rem;font-weight:600;color:#333;margin-top:1px}
 .exp-date{font-size:0.72rem;color:#888;margin-top:2px;margin-bottom:6px}
 .exp-desc{font-size:0.78rem;color:#444;line-height:1.8}
 .proj-link{font-size:0.73rem;color:#6b46c1;text-decoration:none;display:block;margin:2px 0 4px}
-
-/* EDUCATION */
 .edu-block{font-size:0.82rem;color:#333;margin-bottom:10px;line-height:1.6}
-
-/* SECTION WRAPPER */
 .section{margin-bottom:4px}
+${WATERMARK_CSS}
 </style>
 </head>
 <body>
@@ -416,6 +432,7 @@ body{background:#fff;display:flex;justify-content:center;padding:40px 20px;font-
   ${projHtml ? `<hr class="divider"><div class="section"><div class="section-heading">Loyihalar</div>${projHtml}</div>` : ""}
 
 </div>
+${WATERMARK_HTML}
 </body>
 </html>`;
 };
@@ -423,7 +440,6 @@ body{background:#fff;display:flex;justify-content:center;padding:40px 20px;font-
 
 // =============================================
 // NEW TEMPLATE 4 — Exact match Image 2
-// Bold purple two-column, "Hello I'm" left + boxed sidebar right
 // =============================================
 const buildTemp4 = ({ fullName, email, phone, location, jobTitle, summary, experience, education, skills, projects, socialLinks, languages, tools }) => {
     const socials = parseSocialLinks(socialLinks);
@@ -442,7 +458,6 @@ const buildTemp4 = ({ fullName, email, phone, location, jobTitle, summary, exper
             <div class="edu-school">${edu.school}</div>
         </div>`).join("");
 
-    // CHANGED: skills split by comma
     const skillsHtml = splitComma(skills).map(s => `<div class="skill-line">${s}</div>`).join("");
     const toolsHtml = splitComma(tools).map(s => `<div class="skill-line">${s}</div>`).join("");
     const langsHtml = splitComma(languages).map(s => `<div class="skill-line">${s}</div>`).join("");
@@ -464,22 +479,17 @@ const buildTemp4 = ({ fullName, email, phone, location, jobTitle, summary, exper
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 body{background:#f3f0fa;display:flex;justify-content:center;padding:40px 20px;font-family:'Montserrat',sans-serif;color:#111}
 .cv{background:#fff;width:860px;min-height:1060px;display:grid;grid-template-columns:1fr 260px;box-shadow:0 4px 32px rgba(80,40,160,0.13)}
-
-/* LEFT */
 .cv-left{padding:44px 36px;border-right:2px solid #f0ecfa}
 .badge{display:inline-block;border:2px solid #6b21d6;color:#6b21d6;font-size:0.58rem;font-weight:700;letter-spacing:3px;text-transform:uppercase;padding:5px 12px;margin-bottom:20px}
 .greeting{font-size:1.05rem;font-weight:500;color:#222;margin-bottom:2px}
 .cv-name{font-size:2.3rem;font-weight:800;color:#6b21d6;line-height:1.1;margin-bottom:16px}
 .cv-summary{font-size:0.78rem;color:#444;line-height:1.85;padding-bottom:26px;border-bottom:2px solid #6b21d6;margin-bottom:0}
-
 .section-title{font-size:1.05rem;font-weight:800;color:#6b21d6;margin:26px 0 14px;text-transform:uppercase;letter-spacing:0.5px}
 .exp-block{margin-bottom:20px}
 .exp-meta{font-size:0.72rem;color:#888;margin-bottom:3px}
 .exp-role{font-size:0.85rem;font-weight:700;color:#111}
 .exp-desc{font-size:0.76rem;color:#555;margin-top:7px;line-height:1.75}
 .proj-link{font-size:0.71rem;color:#6b21d6;text-decoration:none;display:block;margin-top:2px}
-
-/* RIGHT SIDEBAR */
 .cv-right{padding:44px 24px;background:#faf8ff}
 .sidebar-block{margin-bottom:28px}
 .sidebar-heading{display:inline-block;border:2px solid #6b21d6;color:#6b21d6;font-size:0.58rem;font-weight:700;letter-spacing:2.5px;text-transform:uppercase;padding:4px 10px;margin-bottom:14px}
@@ -490,9 +500,9 @@ body{background:#f3f0fa;display:flex;justify-content:center;padding:40px 20px;fo
 .edu-deg{font-size:0.77rem;font-weight:600;color:#6b21d6;margin-top:1px}
 .edu-school{font-size:0.8rem;font-weight:800;color:#111}
 .skill-line{font-size:0.77rem;color:#333;padding:5px 0;border-bottom:1px solid #ede9f9}
-
 @media print{body{background:none;padding:0}.cv{box-shadow:none}}
 ::-webkit-scrollbar{display:none}
+${WATERMARK_CSS}
 </style>
 </head>
 <body>
@@ -532,6 +542,7 @@ body{background:#f3f0fa;display:flex;justify-content:center;padding:40px 20px;fo
   </div>
 
 </div>
+${WATERMARK_HTML}
 </body>
 </html>`;
 };
@@ -539,8 +550,6 @@ body{background:#f3f0fa;display:flex;justify-content:center;padding:40px 20px;fo
 
 // =============================================
 // NEW TEMPLATE 5 — Exact match Image 3
-// Large uppercase purple name, contact top-right,
-// avatar circle, purple bar section titles, 2-col body
 // =============================================
 const buildTemp5 = ({ fullName, email, phone, location, jobTitle, summary, experience, education, skills, projects, socialLinks, languages, tools }) => {
     const socials = parseSocialLinks(socialLinks);
@@ -555,7 +564,6 @@ const buildTemp5 = ({ fullName, email, phone, location, jobTitle, summary, exper
             <div class="exp-desc">${exp.description}</div>
         </div>`).join("");
 
-    // CHANGED: skills split by comma
     const skillsHtml = splitComma(skills).map(s => `<div class="list-item">${s}</div>`).join("");
     const toolsHtml = splitComma(tools).map(s => `<div class="list-item">${s}</div>`).join("");
     const langsHtml = splitComma(languages).map(s => `<div class="list-item">${s}</div>`).join("");
@@ -584,47 +592,35 @@ const buildTemp5 = ({ fullName, email, phone, location, jobTitle, summary, exper
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 body{background:#f0eef6;display:flex;justify-content:center;padding:40px 20px;font-family:'Raleway',sans-serif;color:#1a1a2e}
 .cv{background:#fff;width:840px;min-height:1080px;box-shadow:0 4px 32px rgba(80,40,160,0.13)}
-
-/* TOP HEADER */
 .cv-header{display:grid;grid-template-columns:1fr 200px;align-items:start;padding:36px 44px 24px;border-bottom:1.5px solid #e0ddf0}
 .cv-name{font-size:2.4rem;font-weight:900;color:#6b21d6;letter-spacing:3px;text-transform:uppercase;line-height:1.05}
 .cv-jobtitle{font-size:0.8rem;color:#666;font-weight:400;margin-top:6px;letter-spacing:0.5px}
 .cv-contact-col{text-align:right;font-size:0.76rem;color:#333;line-height:2}
 .cv-contact-col a{color:#6b21d6;text-decoration:none;display:block}
-
-/* PROFILE STRIP */
 .cv-profile{display:grid;grid-template-columns:100px 1fr;gap:28px;padding:24px 44px;border-bottom:1.5px solid #e0ddf0;align-items:start}
 .cv-avatar{width:86px;height:86px;border-radius:50%;background:#ede9f9;display:flex;align-items:center;justify-content:center;font-size:1.7rem;font-weight:800;color:#6b21d6;border:3px solid #c9b8f0}
 .cv-bio{font-size:0.79rem;color:#444;line-height:1.85}
-
-/* BODY */
 .cv-body{display:grid;grid-template-columns:1fr 220px}
 .body-left{padding:28px 32px 28px 44px;border-right:1.5px solid #e0ddf0}
 .body-right{padding:28px 24px}
-
-/* SECTION LABEL */
 .section-label{display:flex;align-items:center;gap:0;margin-bottom:18px}
 .section-label-bar{width:4px;height:100%;background:#6b21d6;margin-right:10px;align-self:stretch;min-height:22px}
 .section-label-text{font-size:0.68rem;font-weight:800;letter-spacing:3px;text-transform:uppercase;color:#fff;background:#6b21d6;padding:5px 12px}
-
-/* EXPERIENCE */
 .exp-block{margin-bottom:22px}
 .exp-header{display:flex;justify-content:space-between;align-items:baseline;flex-wrap:wrap;gap:4px;margin-bottom:5px}
 .exp-role{font-size:0.88rem;font-weight:600;color:#1a1a2e}
 .exp-meta{font-size:0.71rem;color:#888}
 .exp-desc{font-size:0.76rem;color:#444;line-height:1.8}
 .proj-link{font-size:0.71rem;color:#6b21d6;text-decoration:none;display:block;margin-top:2px}
-
-/* RIGHT SIDEBAR */
 .list-item{font-size:0.78rem;color:#333;padding:4px 0;border-bottom:1px solid #f0ecfa}
 .edu-block{margin-bottom:16px}
 .edu-role{font-size:0.82rem;font-weight:600;color:#1a1a2e}
 .edu-school{font-size:0.76rem;color:#6b21d6}
 .edu-date{font-size:0.7rem;color:#999}
 .sidebar-gap{height:20px}
-
 @media print{body{background:none;padding:0}.cv{box-shadow:none}}
 ::-webkit-scrollbar{display:none}
+${WATERMARK_CSS}
 </style>
 </head>
 <body>
@@ -672,6 +668,7 @@ body{background:#f0eef6;display:flex;justify-content:center;padding:40px 20px;fo
   </div>
 
 </div>
+${WATERMARK_HTML}
 </body>
 </html>`;
 };
@@ -679,8 +676,6 @@ body{background:#f0eef6;display:flex;justify-content:center;padding:40px 20px;fo
 
 // =============================================
 // NEW TEMPLATE 6 — Exact match Image 4
-// Minimal black/white serif, "RESUME" label top-left,
-// big stacked name, left sidebar edu + skills, right body
 // =============================================
 const buildTemp6 = ({ fullName, email, phone, location, jobTitle, summary, experience, education, skills, projects, socialLinks, languages, tools }) => {
     const socials = parseSocialLinks(socialLinks);
@@ -691,7 +686,6 @@ const buildTemp6 = ({ fullName, email, phone, location, jobTitle, summary, exper
             <div class="edu-meta">${edu.school} | ${edu.startDate} - ${edu.endDate}</div>
         </div>`).join("");
 
-    // CHANGED: skills split by comma
     const proSkills = splitComma(skills);
     const techSkills = splitComma(tools);
     const langList = splitComma(languages);
@@ -726,8 +720,6 @@ const buildTemp6 = ({ fullName, email, phone, location, jobTitle, summary, exper
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 body{background:#f2f2f0;display:flex;justify-content:center;padding:40px 20px;font-family:'Lato',sans-serif;color:#111}
 .cv{background:#fff;width:800px;min-height:1080px;display:grid;grid-template-rows:auto 1fr;box-shadow:0 2px 20px rgba(0,0,0,0.10)}
-
-/* TOP HEADER */
 .cv-header{padding:32px 36px 24px;border-bottom:1px solid #ccc;display:grid;grid-template-columns:1fr 230px;gap:20px;align-items:start}
 .header-left{}
 .resume-label{font-size:0.65rem;letter-spacing:3px;text-transform:uppercase;color:#888;margin-bottom:10px;font-family:'Lato',sans-serif}
@@ -737,11 +729,7 @@ body{background:#f2f2f0;display:flex;justify-content:center;padding:40px 20px;fo
 .header-right div{display:flex;gap:6px}
 .header-right span{color:#999;font-size:0.68rem;letter-spacing:0.5px;text-transform:uppercase;min-width:18px}
 .header-right a{color:#333;text-decoration:none}
-
-/* BODY */
 .cv-body{display:grid;grid-template-columns:220px 1fr}
-
-/* SIDEBAR */
 .cv-sidebar{padding:28px 22px;border-right:1px solid #e0e0e0;background:#fafafa}
 .sidebar-section{margin-bottom:28px}
 .sidebar-title{font-size:0.64rem;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:#111;border-bottom:2px solid #111;padding-bottom:5px;margin-bottom:12px}
@@ -752,8 +740,6 @@ body{background:#f2f2f0;display:flex;justify-content:center;padding:40px 20px;fo
 .skill-list li{font-size:0.75rem;color:#333;padding:3px 0;border-bottom:1px solid #eee;display:flex;align-items:center;gap:6px}
 .skill-list li::before{content:"";display:inline-block;width:6px;height:6px;border-radius:50%;background:#bbb;flex-shrink:0}
 .skill-sub{font-size:0.61rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#999;margin:10px 0 6px}
-
-/* MAIN */
 .cv-main{padding:28px 32px}
 .main-section{margin-bottom:26px}
 .main-title{font-size:0.9rem;font-weight:700;font-family:'Libre Baskerville',serif;color:#111;border-bottom:1px solid #ccc;padding-bottom:6px;margin-bottom:14px}
@@ -764,9 +750,9 @@ body{background:#f2f2f0;display:flex;justify-content:center;padding:40px 20px;fo
 .exp-company{font-size:0.74rem;color:#555;margin-top:1px}
 .exp-desc{font-size:0.76rem;color:#444;line-height:1.78;margin-top:5px}
 .proj-link{font-size:0.71rem;color:#555;text-decoration:none;font-style:italic;display:block;margin-top:2px}
-
 @media print{body{background:none;padding:0}.cv{box-shadow:none}}
 ::-webkit-scrollbar{display:none}
+${WATERMARK_CSS}
 </style>
 </head>
 <body>
@@ -824,6 +810,7 @@ body{background:#f2f2f0;display:flex;justify-content:center;padding:40px 20px;fo
   </div>
 
 </div>
+${WATERMARK_HTML}
 </body>
 </html>`;
 };
